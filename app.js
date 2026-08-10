@@ -866,8 +866,52 @@ function init() {
   applyThemeMode(); // Setup active theme variables and classes
   loadFavorites();
   
-  // Default load weather for the active location (London)
-  fetchWeather(state.activeLocation.lat, state.activeLocation.lon);
+  // Load current location on startup, fallback to London if permission denied/unavailable
+  loadStartupWeather();
+}
+
+function loadStartupWeather() {
+  if (navigator.geolocation) {
+    showLoader();
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        state.activeLocation = {
+          name: 'Your Location',
+          country: '',
+          lat: latitude,
+          lon: longitude
+        };
+        
+        try {
+          const revUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+          const res = await fetch(revUrl, {
+            headers: { 'User-Agent': NOMINATIM_USER_AGENT }
+          });
+          if (res.ok) {
+            const resData = await res.json();
+            const city = resData.address.city || resData.address.town || resData.address.village || resData.address.county || 'Your Location';
+            const country = resData.address.country || '';
+            state.activeLocation.name = city;
+            state.activeLocation.country = country;
+          }
+        } catch (err) {
+          console.warn('Reverse geocoding failed, falling back to label "Your Location".', err);
+        }
+        
+        fetchWeather(latitude, longitude);
+      },
+      (error) => {
+        console.warn('Geolocation failed or denied. Falling back to London.');
+        // Fallback to default London
+        fetchWeather(state.activeLocation.lat, state.activeLocation.lon);
+      },
+      { timeout: 7000 }
+    );
+  } else {
+    // Fallback to default London directly
+    fetchWeather(state.activeLocation.lat, state.activeLocation.lon);
+  }
 }
 
 // Kickstart
