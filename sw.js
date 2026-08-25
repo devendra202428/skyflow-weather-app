@@ -2,7 +2,7 @@
    SKYFLOW SERVICE WORKER (PWA OFFLINE CACHING ENGINE)
    ========================================================================== */
 
-const CACHE_NAME = 'skyflow-cache-v1';
+const CACHE_NAME = 'skyflow-cache-v2';
 const STATIC_ASSETS = [
   'index.html',
   'style.css',
@@ -43,7 +43,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 3. Fetch Event: Intercept network calls
+// 3. Fetch Event: Intercept network calls (Stale-While-Revalidate)
 self.addEventListener('fetch', (event) => {
   const requestUrl = new URL(event.request.url);
 
@@ -67,26 +67,22 @@ self.addEventListener('fetch', (event) => {
       })
     );
   } else {
-    // Cache First strategy for static UI assets (HTML, CSS, JS, Icon, CDN scripts)
+    // Stale-While-Revalidate strategy for static UI assets (HTML, CSS, JS, CDNs)
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        // Fallback to fetch and dynamically cache any other static asset
-        return fetch(event.request).then((networkResponse) => {
-          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-            return networkResponse;
+        const fetchPromise = fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
           }
-
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-
           return networkResponse;
+        }).catch(() => {
+          // Fail silently on network errors, cached fallback handles it
         });
+
+        return cachedResponse || fetchPromise;
       })
     );
   }
