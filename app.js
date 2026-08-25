@@ -868,6 +868,21 @@ function init() {
   
   // Load current location on startup, fallback to London if permission denied/unavailable
   loadStartupWeather();
+  
+  // Register Service Worker for PWA install and caching
+  registerServiceWorker();
+}
+
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then((reg) => {
+        console.log('[Service Worker] Registered successfully.', reg.scope);
+      })
+      .catch((err) => {
+        console.warn('[Service Worker] Registration failed:', err);
+      });
+  }
 }
 
 function loadStartupWeather() {
