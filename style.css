@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SKYFLOW CSS DESIGN SYSTEM & STYLESHEET
+   SKYFLOW CSS DESIGN SYSTEM & STYLESHEET (MOBILE-FIRST DESIGN)
    ========================================================================== */
 
 /* --- Design Tokens & Global Variables --- */
@@ -49,17 +49,7 @@
   --accent-success: #10b981;
 }
 
-/* --- Light Mode Core Variables --- */
-body.mode-light {
-  --glass-bg: rgba(255, 255, 255, 0.45);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --glass-hover-bg: rgba(255, 255, 255, 0.7);
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-}
-
-/* --- Weather Theme Variations --- */
+/* --- Theme Variations --- */
 body.theme-clear-day {
   background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
   --ambient-color-1: rgba(251, 191, 36, 0.15);
@@ -101,6 +91,16 @@ body.theme-foggy {
   --ambient-color-1: rgba(148, 163, 184, 0.1);
   --ambient-color-2: rgba(100, 116, 139, 0.15);
   --accent-theme: #94a3b8;
+}
+
+/* --- Light Mode Core Variables --- */
+body.mode-light {
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-hover-bg: rgba(255, 255, 255, 0.7);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
 }
 
 /* --- Light Mode Weather Theme Variations --- */
@@ -169,13 +169,13 @@ body {
 .app-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 12px;
   position: relative;
   z-index: 10;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  gap: 24px;
+  gap: 16px;
 }
 
 .ambient-glow {
@@ -218,12 +218,12 @@ body {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* --- App Header & Navigation --- */
+/* --- App Header (Mobile Default) --- */
 .app-header {
-  display: grid;
-  grid-template-columns: 200px 1fr auto;
-  align-items: center;
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
   position: relative;
   z-index: 100;
 }
@@ -231,6 +231,8 @@ body {
 .logo-area {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   gap: 10px;
 }
 
@@ -255,8 +257,6 @@ body {
 .search-container {
   position: relative;
   width: 100%;
-  max-width: 500px;
-  justify-self: center;
 }
 
 .search-bar-wrapper {
@@ -449,6 +449,9 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   gap: 16px;
+  position: absolute;
+  top: -4px;
+  right: 0;
 }
 
 .theme-mode-btn {
@@ -553,12 +556,13 @@ body.mode-light .error-content {
   border-color: rgba(239, 68, 68, 0.15);
 }
 
-/* --- Favorites Bar --- */
+/* --- Favorites Bar (Mobile Default) --- */
 .favorites-bar {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 10px 18px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
@@ -588,7 +592,7 @@ body.mode-light .error-content {
   gap: 10px;
   overflow-x: auto;
   width: 100%;
-  scrollbar-width: none; /* Hide scrollbar for clean pill list */
+  scrollbar-width: none;
 }
 
 .favorites-list::-webkit-scrollbar {
@@ -647,22 +651,22 @@ body.mode-light .error-content {
   height: 12px;
 }
 
-/* --- Dashboard Core Grid --- */
+/* --- Dashboard Core Grid (Mobile Default stacked) --- */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 420px 1fr;
+  grid-template-columns: 1fr;
   gap: 24px;
   position: relative;
   z-index: 10;
 }
 
-/* --- Current Weather Card (Left Column) --- */
+/* --- Current Weather Card --- */
 .current-weather-card {
-  padding: 28px;
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 380px;
+  min-height: auto;
   position: relative;
   overflow: hidden;
 }
@@ -729,7 +733,7 @@ body.mode-light .error-content {
 }
 
 .weather-temp-block .temperature {
-  font-size: var(--fs-temp);
+  font-size: 4rem;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -3px;
@@ -752,8 +756,8 @@ body.mode-light .error-content {
 }
 
 .weather-large-icon {
-  width: 96px;
-  height: 96px;
+  width: 76px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -802,27 +806,27 @@ body.mode-light .error-content {
   color: rgba(255, 255, 255, 0.15);
 }
 
-/* --- Metrics Grid (Right Column - Top) --- */
+/* --- Metrics Grid (Mobile Default 2-column) --- */
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
 .metric-card {
-  padding: 20px;
+  padding: 14px 10px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   position: relative;
 }
 
 .metric-icon-wrapper {
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -850,13 +854,13 @@ body.mode-light .error-content {
 }
 
 .metric-value {
-  font-size: var(--fs-lg);
+  font-size: var(--fs-base);
   font-weight: 600;
   color: var(--text-primary);
 }
 
 .metric-value.small {
-  font-size: var(--fs-base);
+  font-size: var(--fs-sm);
 }
 
 .metric-sub {
@@ -894,14 +898,21 @@ body.mode-light .error-content {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+/* Span 5th metric card across full width on mobile */
+.metric-card:nth-child(5) {
+  grid-column: span 2;
+}
+
 .sun-times-card {
-  grid-column: span 3;
-  padding: 16px 24px;
+  grid-column: span 2;
+  padding: 12px 16px;
 }
 
 .sun-times-row {
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
+  align-items: center;
   width: 100%;
 }
 
@@ -923,10 +934,10 @@ body.mode-light .error-content {
   flex-direction: column;
 }
 
-/* --- Hourly Forecast (Span Right) --- */
+/* --- Hourly Forecast (Scroll slide standard) --- */
 .hourly-forecast-card {
-  grid-column: span 2;
-  padding: 24px;
+  grid-column: span 1;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -1027,10 +1038,10 @@ body.mode-light .error-content {
   gap: 2px;
 }
 
-/* --- 7-Day Forecast (Span Columns) --- */
+/* --- 7-Day Forecast (Mobile Default) --- */
 .daily-forecast-card {
-  grid-column: span 2;
-  padding: 24px;
+  grid-column: span 1;
+  padding: 16px;
 }
 
 .daily-forecast-list {
@@ -1042,10 +1053,10 @@ body.mode-light .error-content {
 
 .daily-forecast-item {
   display: grid;
-  grid-template-columns: 100px 48px 140px 1fr 100px;
+  grid-template-columns: 80px 36px 1fr 60px;
   align-items: center;
-  gap: 16px;
-  padding: 12px 20px;
+  gap: 8px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
@@ -1071,16 +1082,15 @@ body.mode-light .error-content {
 }
 
 .daily-desc {
-  font-size: var(--fs-sm);
-  color: var(--text-secondary);
-  font-weight: 500;
+  display: none; /* Hide on mobile to prevent squishing */
 }
 
 /* Custom visual temperature bar range */
 .daily-temp-bar-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: flex-end;
+  gap: 6px;
   width: 100%;
 }
 
@@ -1088,21 +1098,15 @@ body.mode-light .error-content {
   font-size: var(--fs-xs);
   color: var(--text-muted);
   font-weight: 600;
-  width: 28px;
+  width: auto;
 }
 
 .temp-bar-label.high {
-  text-align: right;
   color: var(--text-primary);
 }
 
 .temp-bar-track {
-  flex: 1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-full);
-  position: relative;
-  overflow: hidden;
+  display: none; /* Hide progress bar on small devices */
 }
 
 .temp-bar-fill {
@@ -1298,192 +1302,147 @@ body.mode-light .error-content {
   animation-duration: 4s;
 }
 
-/* --- Responsive Adaptations --- */
-@media (max-width: 1024px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .current-weather-card {
-    min-height: auto;
-  }
-  
-  .hourly-forecast-card, .daily-forecast-card {
-    grid-column: span 1;
-  }
-}
 
-@media (max-width: 768px) {
-  .app-header {
-    grid-template-columns: 1fr auto;
-    gap: 16px;
-  }
-  
-  .logo-area {
-    grid-column: 1 / span 2;
-  }
-  
-  .search-container {
-    grid-column: 1;
-    max-width: 100%;
-  }
-  
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .sun-times-card {
-    grid-column: span 2;
-  }
-  
-  .daily-forecast-item {
-    grid-template-columns: 80px 36px 90px 1fr 60px;
-    gap: 12px;
-    padding: 10px 14px;
-  }
-  
-  .daily-day {
-    font-size: var(--fs-sm);
-  }
-  
-  .daily-desc {
-    font-size: var(--fs-xs);
-  }
-  
-  .temp-bar-track {
-    display: none; /* Hide progress track on small mobile devices to save space */
-  }
-}
-
-@media (max-width: 540px) {
-  .app-header {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-    position: relative;
-  }
-  
-  .logo-area {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .header-actions {
-    position: absolute;
-    top: -4px;
-    right: 0;
-  }
-  
-  .search-container {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
+/* --- Responsive Media Queries (Upgrading to Desktop) --- */
+@media (min-width: 768px) {
   .app-container {
-    padding: 12px;
-    gap: 16px;
+    padding: 24px;
+    gap: 24px;
   }
   
-  .card {
-    border-radius: var(--radius-md);
+  .app-header {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    align-items: center;
+    gap: 20px;
   }
   
-  .current-weather-card {
-    padding: 20px 16px;
+  .logo-area {
+    width: auto;
+    justify-content: flex-start;
   }
   
-  .weather-temp-block .temperature {
-    font-size: 4rem;
-  }
-  
-  .weather-large-icon {
-    width: 76px;
-    height: 76px;
+  .search-container {
+    max-width: 500px;
+    justify-self: center;
   }
   
   .favorites-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 10px 12px;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 18px;
   }
   
   .favorites-list {
-    width: 100%;
+    width: auto;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 380px 1fr;
+  }
+  
+  .current-weather-card {
+    min-height: 380px;
+    padding: 28px;
+  }
+  
+  .weather-temp-block .temperature {
+    font-size: var(--fs-temp);
+  }
+  
+  .weather-large-icon {
+    width: 96px;
+    height: 96px;
   }
   
   .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
   
   .metric-card {
-    padding: 14px 10px;
-    gap: 8px;
-    align-items: center;
+    padding: 20px;
+    gap: 16px;
   }
   
   .metric-icon-wrapper {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-sm);
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
   }
   
   .metric-icon-wrapper i {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
   
   .metric-value {
-    font-size: var(--fs-base);
+    font-size: var(--fs-lg);
   }
   
   .metric-value.small {
-    font-size: var(--fs-sm);
+    font-size: var(--fs-base);
   }
   
-  /* Make the pressure card span across 2 columns to look neat */
   .metric-card:nth-child(5) {
-    grid-column: span 2;
+    grid-column: span 1;
   }
   
   .sun-times-card {
-    grid-column: span 2;
-    padding: 12px 16px;
+    grid-column: span 3;
+    padding: 16px 24px;
   }
   
   .sun-times-row {
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
-    width: 100%;
   }
   
-  .hourly-forecast-card, .daily-forecast-card {
-    padding: 16px;
+  .hourly-forecast-card {
+    grid-column: span 2;
+    padding: 24px;
+  }
+  
+  .daily-forecast-card {
+    grid-column: span 2;
+    padding: 24px;
   }
   
   .daily-forecast-item {
-    grid-template-columns: 80px 36px 1fr 60px;
-    gap: 8px;
-    padding: 10px 12px;
+    grid-template-columns: 100px 48px 140px 1fr 100px;
+    gap: 16px;
+    padding: 12px 20px;
   }
   
   .daily-desc {
-    display: none; /* Hide description text to maximize spacing for metrics */
+    display: block;
+    font-size: var(--fs-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
   }
   
-  .daily-temp-bar-container {
-    justify-content: flex-end;
-    gap: 6px;
+  .temp-bar-track {
+    display: block;
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    position: relative;
+    overflow: hidden;
   }
   
   .temp-bar-label {
-    width: auto;
-    font-size: var(--fs-sm);
+    width: 28px;
+  }
+  
+  .temp-bar-label.high {
+    text-align: right;
+  }
+}
+
+@media (min-width: 1025px) {
+  .dashboard-grid {
+    grid-template-columns: 420px 1fr;
   }
 }
