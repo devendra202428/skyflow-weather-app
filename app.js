@@ -65,6 +65,8 @@ const DOM = {
   aqiFullScore: document.getElementById('aqi-full-score'),
   aqiFullDesc: document.getElementById('aqi-full-desc'),
   aqiFullFill: document.getElementById('aqi-full-fill'),
+  aqiPm25: document.getElementById('aqi-pm25'),
+  aqiPm10: document.getElementById('aqi-pm10'),
   
   searchModal: document.getElementById('search-modal'),
   closeSearchBtn: document.getElementById('close-search-btn'),
@@ -226,7 +228,7 @@ async function fetchWeather(lat, lon) {
   showLoader();
   try {
     const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&timezone=auto`;
-    const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi&timezone=auto`;
+    const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi,pm2_5,pm10&timezone=auto`;
 
     const [forecastRes, aqiRes] = await Promise.all([
       fetch(forecastUrl),
@@ -279,10 +281,9 @@ function renderAppDashboard() {
   const maxTempToday = formatTempUnit(daily.temperature_2m_max[0]);
   DOM.heroTempRange.textContent = `${maxTempToday} / ${minTempToday}`;
 
-  // AQI Badge & Score
-  const aqiValue = state.aqiData && state.aqiData.current && state.aqiData.current.us_aqi !== null
-    ? Math.round(state.aqiData.current.us_aqi)
-    : 110;
+  // AQI Badge, Score, and Pollutants (Live Real-Time Data)
+  const aqiCurrent = state.aqiData && state.aqiData.current ? state.aqiData.current : null;
+  const aqiValue = aqiCurrent && aqiCurrent.us_aqi !== null ? Math.round(aqiCurrent.us_aqi) : 110;
   const aqiInfo = getAqiDescription(aqiValue);
   
   DOM.heroAqiText.textContent = `AQI ${aqiValue}`;
@@ -290,6 +291,11 @@ function renderAppDashboard() {
   DOM.aqiFullDesc.textContent = aqiInfo.desc;
   DOM.aqiFullDesc.style.color = aqiInfo.color;
   DOM.aqiFullFill.style.width = `${Math.min(Math.round((aqiValue / 300) * 100), 100)}%`;
+
+  if (DOM.aqiPm25 && DOM.aqiPm10) {
+    DOM.aqiPm25.textContent = aqiCurrent && aqiCurrent.pm2_5 !== undefined ? aqiCurrent.pm2_5 : '--';
+    DOM.aqiPm10.textContent = aqiCurrent && aqiCurrent.pm10 !== undefined ? aqiCurrent.pm10 : '--';
+  }
 
   // 4. Daily Forecast List (5-Day or 7-Day)
   renderDailyForecast();

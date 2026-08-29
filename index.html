@@ -239,14 +239,18 @@
         <div class="aqi-card-content">
           <div class="aqi-card-header">
             <i data-lucide="shield-alert" class="aqi-card-icon"></i>
-            <span class="aqi-card-title">Air Quality Index</span>
+            <span class="aqi-card-title">Air Quality Index (Live)</span>
           </div>
           <div class="aqi-card-main-row">
-            <span class="aqi-card-score" id="aqi-full-score">110</span>
-            <span class="aqi-card-desc" id="aqi-full-desc">Moderate Air Quality</span>
+            <span class="aqi-card-score" id="aqi-full-score">--</span>
+            <span class="aqi-card-desc" id="aqi-full-desc">Retrieving live AQI...</span>
           </div>
           <div class="aqi-progress-bar-track">
-            <div class="aqi-progress-bar-fill" id="aqi-full-fill" style="width: 45%;"></div>
+            <div class="aqi-progress-bar-fill" id="aqi-full-fill" style="width: 0%;"></div>
+          </div>
+          <div class="aqi-pollutants-row" id="aqi-pollutants-row" style="display: flex; gap: 16px; margin-top: 8px; font-size: 0.82rem; color: var(--text-dim);">
+            <span>PM2.5: <strong id="aqi-pm25" style="color: #ffffff;">--</strong> μg/m³</span>
+            <span>PM10: <strong id="aqi-pm10" style="color: #ffffff;">--</strong> μg/m³</span>
           </div>
         </div>
       </section>
